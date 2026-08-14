@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú Principal - Portafolio</title>
+  <style>
+    body {
+      background-color: #010e26;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .contenedor-menu {
+      border: 1px solid #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      width: 320px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .titulo-menu {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #ffffff;
+    }
+
+    .opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .boton-menu {
+      display: block;
+      padding: 12px 20px;
+      color: #ffffff;
+      background: transparent;
+      border: 2px solid #a855f7;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.6), inset 0 0 10px rgba(168, 85, 247, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .boton-menu:hover {
+      background-color: #a855f7;
+      color: #010e26;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.9);
+    }
+
+    .btn-volver {
+      margin-top: 25px;
+      display: inline-block;
+      color: #aaaaaa;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-volver:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenedor-menu">
+    <h1 class="titulo-menu">Menú</h1>
+
+    <div class="opciones">
+      <a href="juego.html" class="boton-menu">🎮 Ir al Juego</a>
+
+      <a href="diario.html" class="boton-menu">📖 Mi Diario</a>
+
+      <a href="tareas.html" class="boton-menu">📋 Lista de Tareas</a>
+
+      <a href="traductor.html" class="boton-menu">🌐 Traductor</a>
+    </div>
+
+    <a href="index.html" class="btn-volver">← Volver al inicio</a>
+  </div>
+
+<script src="mariposas.js"></script>
+</body>
+</html>
