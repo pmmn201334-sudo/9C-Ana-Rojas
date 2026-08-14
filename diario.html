@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Diario - Portafolio</title>
+  <style>
+    body {
+      background-color: #010e26;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      color: #a855f7;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .contenedor-diario {
+      background-color: #061938;
+      border: 2px solid #a855f7;
+      border-radius: 12px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    }
+
+    /* Barra de herramientas para personalizar el texto */
+    .herramientas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .grupo-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    select, input[type="color"] {
+      background: #010e26;
+      color: #ffffff;
+      border: 1px solid #a855f7;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Área donde escribes */
+    .area-texto {
+      width: 100%;
+      height: 300px;
+      background-color: #010e26;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      color: #ffffff;
+      font-size: 16px;
+      line-height: 1.6;
+      resize: vertical;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .area-texto:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+    }
+
+    .acciones {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .cabecera-diario {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .titulo-diario {
+      flex: 1;
+      min-width: 200px;
+      background: #010e26;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .fecha-diario {
+      background: #010e26;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .titulo-diario:focus, .fecha-diario:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-guardar {
+      padding: 10px 20px;
+      color: #ffffff;
+      background: transparent;
+      border: 2px solid #a855f7;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+      transition: all 0.2s ease;
+    }
+
+    .btn-guardar:hover {
+      background-color: #a855f7;
+      color: #010e26;
+    }
+
+    .mensaje-estado {
+      font-size: 13px;
+      color: #a855f7;
+      display: none;
+    }
+
+    .btn-volver {
+      margin-top: 25px;
+      color: #aaaaaa;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-volver:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📖 Mi Diario Personal</h1>
+
+  <div class="contenedor-diario">
+    
+    <div class="herramientas">
+      <div class="grupo-control">
+        <label for="tipo-fuente">✍️ Tipo de letra:</label>
+        <select id="tipo-fuente">
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="'Courier New', monospace">Máquina de escribir</option>
+          <option value="'Georgia', serif">Elegante (Georgia)</option>
+          <option value="'Comic Sans MS', cursive">Divertida (Comic Sans)</option>
+          <option value="'Trebuchet MS', sans-serif">Trebuchet</option>
+        </select>
+      </div>
+
+      <div class="grupo-control">
+        <label for="color-texto">🎨 Color de letra:</label>
+        <input type="color" id="color-texto" value="#ffffff">
+      </div>
+    </div>
+
+    <div class="cabecera-diario">
+      <input type="text" id="titulo-diario" class="titulo-diario" placeholder="Título (ej: Mi día de hoy)">
+      <input type="date" id="fecha-diario" class="fecha-diario">
+    </div>
+
+    <textarea id="texto-diario" class="area-texto" placeholder="Escribe aquí lo que quieras sobre tu día..."></textarea>
+
+    <div class="acciones">
+      <button class="btn-guardar" id="btn-guardar">💾 Guardar nota</button>
+      <span class="mensaje-estado" id="mensaje-estado">¡Guardado con éxito!</span>
+    </div>
+
+  </div>
+
+  <a href="menu.html" class="btn-volver">← Volver al Menú</a>
+
+  <script>
+    const textoDiario = document.getElementById('texto-diario');
+    const selectFuente = document.getElementById('tipo-fuente');
+    const inputColor = document.getElementById('color-texto');
+    const btnGuardar = document.getElementById('btn-guardar');
+    const mensajeEstado = document.getElementById('mensaje-estado');
+    const inputTitulo = document.getElementById('titulo-diario');
+    const inputFecha = document.getElementById('fecha-diario');
+
+    inputTitulo.value = localStorage.getItem('mi_diario_titulo') || '';
+    inputFecha.value = localStorage.getItem('mi_diario_fecha') || '';
+
+    // Cambiar tipo de letra
+    selectFuente.addEventListener('change', () => {
+      textoDiario.style.fontFamily = selectFuente.value;
+    });
+
+    // Cambiar color de la letra
+    inputColor.addEventListener('input', () => {
+      textoDiario.style.color = inputColor.value;
+    });
+
+    // Guardar en el navegador (LocalStorage)
+    btnGuardar.addEventListener('click', () => {
+      localStorage.setItem('mi_diario_texto', textoDiario.value);
+      localStorage.setItem('mi_diario_fuente', selectFuente.value);
+      localStorage.setItem('mi_diario_color', inputColor.value);
+      localStorage.setItem('mi_diario_titulo', inputTitulo.value);
+      localStorage.setItem('mi_diario_fecha', inputFecha.value);
+
+      mensajeEstado.style.display = 'inline';
+      setTimeout(() => {
+        mensajeEstado.style.display = 'none';
+      }, 2000);
+    });
+
+    // Cargar lo guardado al abrir la página
+    window.addEventListener('DOMContentLoaded', () => {
+      const textoGuardado = localStorage.getItem('mi_diario_texto');
+      const fuenteGuardada = localStorage.getItem('mi_diario_fuente');
+      const colorGuardado = localStorage.getItem('mi_diario_color');
+
+      if (textoGuardado) textoDiario.value = textoGuardado;
+      if (fuenteGuardada) {
+        selectFuente.value = fuenteGuardada;
+        textoDiario.style.fontFamily = fuenteGuardada;
+      }
+      if (colorGuardado) {
+        inputColor.value = colorGuardado;
+        textoDiario.style.color = colorGuardado;
+      }
+    });
+  </script>
+
+<script src="mariposas.js"></script>
+</body>
+</html>
