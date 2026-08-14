@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Escaleras - Portafolio</title>
+  <style>
+    body {
+      background-color: #010e26;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+      color: #a855f7;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+
+    /* Reglas y Leyenda */
+    .leyenda {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .item-leyenda {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+
+    /* Tablero */
+    .tablero {
+      display: grid;
+      grid-template-columns: repeat(6, 65px);
+      grid-template-rows: repeat(5, 65px);
+      gap: 6px;
+      background-color: #061938;
+      border: 3px solid #a855f7;
+      padding: 8px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    }
+
+    .casilla {
+      background-color: #0d2a52;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px;
+      font-weight: bold;
+      position: relative;
+      font-size: 13px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-sizing: border-box;
+    }
+
+    .num-casilla {
+      align-self: flex-start;
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    .meta {
+      background-color: #ffd700 !important;
+      color: #000 !important;
+      font-weight: bold;
+    }
+
+    /* Efectos de Escaleras y Serpientes */
+    .escalera {
+      background-color: #1e5631 !important;
+      border: 1px solid #a855f7;
+    }
+
+    .serpiente {
+      background-color: #6b1111 !important;
+      border: 1px solid #ff4d4d;
+    }
+
+    .etiqueta-trampa {
+      font-size: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Ficha del Jugador */
+    .jugador {
+      width: 22px;
+      height: 22px;
+      background-color: #a855f7;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px #a855f7, 0 0 4px #ffffff;
+      border: 2px solid #ffffff;
+      animation: pulso 1.5s infinite;
+    }
+
+    @keyframes pulso {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.15); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    /* Panel de Control y Dado */
+    .panel-control {
+      margin-top: 15px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-dado {
+      padding: 12px 30px;
+      color: #ffffff;
+      background: transparent;
+      border: 2px solid #a855f7;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+      transition: all 0.2s ease;
+    }
+
+    .btn-dado:hover {
+      background-color: #a855f7;
+      color: #010e26;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+    }
+
+    .info-juego {
+      font-size: 16px;
+      min-height: 30px;
+      color: #e0e0e0;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 16px;
+      border-radius: 6px;
+    }
+
+    .btn-volver {
+      margin-top: 20px;
+      color: #aaaaaa;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-volver:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🪜 Serpientes y Escaleras 🐍</h1>
+
+  <div class="leyenda">
+    <div class="item-leyenda">🟣 <b>Ficha:</b> Tu posición</div>
+    <div class="item-leyenda">🪜 <b>Escalera:</b> ¡Subes!</div>
+    <div class="item-leyenda">🐍 <b>Serpiente:</b> ¡Bajas!</div>
+  </div>
+
+  <div class="tablero" id="tablero"></div>
+
+  <div class="panel-control">
+    <button class="btn-dado" id="btn-tirar">🎲 Lanza el Dado</button>
+    <div class="info-juego" id="mensaje">¡Haz clic en el botón para comenzar a jugar!</div>
+  </div>
+
+  <a href="menu.html" class="btn-volver">← Volver al Menú</a>
+
+  <script>
+    const totalCasillas = 30;
+    let posicion = 1;
+
+    // Conexiones de Escaleras (Origen: Destino)
+    const escaleras = { 3: 11, 8: 18, 15: 24, 22: 28 };
+    // Conexiones de Serpientes (Origen: Destino)
+    const serpientes = { 12: 4, 19: 7, 27: 16, 29: 20 };
+
+    const tableroDiv = document.getElementById('tablero');
+    const mensajeDiv = document.getElementById('mensaje');
+    const btnTirar = document.getElementById('btn-tirar');
+
+    function crearTablero() {
+      tableroDiv.innerHTML = '';
+      
+      let filas = [];
+      let num = totalCasillas;
+      
+      for (let f = 0; f < 5; f++) {
+        let fila = [];
+        for (let c = 0; c < 6; c++) {
+          fila.push(num);
+          num--;
+        }
+        if (f % 2 !== 0) fila.reverse();
+        filas.push(fila);
+      }
+
+      filas.forEach(fila => {
+        fila.forEach(n => {
+          const casilla = document.createElement('div');
+          casilla.classList.add('casilla');
+          casilla.id = `casilla-${n}`;
+
+          // Número de la casilla
+          const numSpan = document.createElement('span');
+          numSpan.classList.add('num-casilla');
+          numSpan.innerText = n;
+          casilla.appendChild(numSpan);
+
+          // Contenido o indicador especial
+          const etiqueta = document.createElement('span');
+          etiqueta.classList.add('etiqueta-trampa');
+
+          if (escaleras[n]) {
+            casilla.classList.add('escalera');
+            etiqueta.innerText = `🪜 ➔ ${escaleras[n]}`;
+          } else if (serpientes[n]) {
+            casilla.classList.add('serpiente');
+            etiqueta.innerText = `🐍 ➔ ${serpientes[n]}`;
+          } else if (n === totalCasillas) {
+            casilla.classList.add('meta');
+            etiqueta.innerText = '🏆 META';
+          }
+
+          casilla.appendChild(etiqueta);
+          tableroDiv.appendChild(casilla);
+        });
+      });
+
+      renderJugador();
+    }
+
+    function renderJugador() {
+      const fichaExistente = document.querySelector('.jugador');
+      if (fichaExistente) fichaExistente.remove();
+
+      const casillaActual = document.getElementById(`casilla-${posicion}`);
+      if (casillaActual) {
+        const ficha = document.createElement('div');
+        ficha.classList.add('jugador');
+        casillaActual.appendChild(ficha);
+      }
+    }
+
+    btnTirar.addEventListener('click', () => {
+      if (posicion >= totalCasillas) return;
+
+      const dado = Math.floor(Math.random() * 6) + 1;
+      let nuevaPosicion = posicion + dado;
+
+      if (nuevaPosicion > totalCasillas) {
+        mensajeDiv.innerText = `🎲 Sacaste ${dado}. Necesitas exacto para llegar a la casilla 30.`;
+        return;
+      }
+
+      posicion = nuevaPosicion;
+      let eventoTexto = `🎲 Sacaste un ${dado}. Vas a la casilla ${posicion}.`;
+
+      if (escaleras[posicion]) {
+        posicion = escaleras[posicion];
+        eventoTexto += ` ¡Súper! 🪜 Subiste a la casilla ${posicion}.`;
+      } else if (serpientes[posicion]) {
+        posicion = serpientes[posicion];
+        eventoTexto += ` ¡Cuidado! 🐍 Caíste a la casilla ${posicion}.`;
+      }
+
+      renderJugador();
+
+      if (posicion === totalCasillas) {
+        mensajeDiv.innerHTML = `🎉 <b>¡FELICIDADES! ¡Has llegado a la meta!</b> 🎉`;
+        btnTirar.innerText = '🔄 Jugar de nuevo';
+        btnTirar.onclick = () => location.reload();
+      } else {
+        mensajeDiv.innerText = eventoTexto;
+      }
+    });
+
+    crearTablero();
+  </script>
+
+<script src="mariposas.js"></script>
+</body>
+</html>
