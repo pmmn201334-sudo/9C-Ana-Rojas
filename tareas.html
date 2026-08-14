@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Tareas - Portafolio</title>
+  <style>
+    body {
+      background-color: #010e26;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      color: #a855f7;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .info {
+      color: #aaaaaa;
+      font-size: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contenedor-tareas {
+      background-color: #061938;
+      border: 2px solid #a855f7;
+      border-radius: 12px;
+      padding: 20px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: rgba(168, 85, 247, 0.15);
+      color: #a855f7;
+      font-size: 14px;
+    }
+
+    td.materia {
+      text-align: left;
+      font-weight: bold;
+      min-width: 140px;
+    }
+
+    .btn-estado {
+      width: 50px;
+      height: 38px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-estado.tiene {
+      border-color: #a855f7;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+      color: #a855f7;
+    }
+
+    .btn-estado.no-tiene {
+      border-color: #ff5555;
+      box-shadow: 0 0 8px rgba(255, 85, 85, 0.5);
+      color: #ff5555;
+    }
+
+    .btn-estado:hover {
+      transform: scale(1.1);
+    }
+
+    input.tarea {
+      width: 100%;
+      background: #010e26;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      color: #ffffff;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    input.tarea:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+    }
+
+    .acciones {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .btn-borrar {
+      padding: 8px 16px;
+      color: #ff5555;
+      background: transparent;
+      border: 2px solid #ff5555;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-borrar:hover {
+      background-color: #ff5555;
+      color: #010e26;
+    }
+
+    .mensaje-estado {
+      font-size: 13px;
+      color: #a855f7;
+      display: none;
+    }
+
+    .btn-volver {
+      margin-top: 25px;
+      color: #aaaaaa;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-volver:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📋 Lista de Tareas</h1>
+  <p class="info">Haz clic en el botón para marcar con ✓ (tengo tarea) o ✗ (no tengo tarea). Escribe la tarea al frente.</p>
+
+  <div class="contenedor-tareas">
+    <table>
+      <thead>
+        <tr>
+          <th>Materia</th>
+          <th>¿Tarea?</th>
+          <th>Tarea</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpo-tareas"></tbody>
+    </table>
+
+    <div class="acciones">
+      <button class="btn-borrar" id="btn-borrar">🗑️ Borrar todo</button>
+      <span class="mensaje-estado" id="mensaje-estado">¡Guardado con éxito!</span>
+    </div>
+  </div>
+
+  <a href="menu.html" class="btn-volver">← Volver al Menú</a>
+
+  <script>
+    const materias = [
+      'Español',
+      'Sociales',
+      'Math',
+      'Filosofía',
+      'Dibujo',
+      'Biología',
+      'Francés',
+      'Skills',
+      'Edu Física',
+      'Inglés',
+      'Informática',
+      'PILEO',
+      'Física',
+      'Danzas',
+      'Ética',
+      'Química',
+      'Cátedra'
+    ];
+
+    const cuerpoTareas = document.getElementById('cuerpo-tareas');
+    const btnBorrar = document.getElementById('btn-borrar');
+    const mensajeEstado = document.getElementById('mensaje-estado');
+
+    const CLAVE_TAREAS = 'mis_tareas';
+
+    function cargarDatos() {
+      try {
+        return JSON.parse(localStorage.getItem(CLAVE_TAREAS)) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    let datos = cargarDatos();
+
+    function guardarDatos() {
+      localStorage.setItem(CLAVE_TAREAS, JSON.stringify(datos));
+      mensajeEstado.style.display = 'inline';
+      setTimeout(() => {
+        mensajeEstado.style.display = 'none';
+      }, 1500);
+    }
+
+    materias.forEach((materia) => {
+      const tareaTexto = datos[materia] ? datos[materia].tarea : '';
+
+      const fila = document.createElement('tr');
+
+      const celdaMateria = document.createElement('td');
+      celdaMateria.className = 'materia';
+      celdaMateria.textContent = materia;
+
+      const celdaBoton = document.createElement('td');
+      const boton = document.createElement('button');
+      boton.className = 'btn-estado';
+      boton.setAttribute('aria-label', 'Marcar estado de ' + materia);
+
+      const actualizarBoton = () => {
+        const actual = datos[materia] ? datos[materia].estado : 'vacio';
+        if (actual === 'tiene') {
+          boton.textContent = '✓';
+          boton.classList.add('tiene');
+          boton.classList.remove('no-tiene');
+        } else if (actual === 'no-tiene') {
+          boton.textContent = '✗';
+          boton.classList.add('no-tiene');
+          boton.classList.remove('tiene');
+        } else {
+          boton.textContent = '—';
+          boton.classList.remove('tiene', 'no-tiene');
+        }
+      };
+
+      const estadoSiguiente = (actual) => {
+        if (actual === 'vacio') return 'tiene';
+        if (actual === 'tiene') return 'no-tiene';
+        return 'vacio';
+      };
+
+      boton.addEventListener('click', () => {
+        datos[materia] = datos[materia] || { estado: 'vacio', tarea: '' };
+        datos[materia].estado = estadoSiguiente(datos[materia].estado);
+        actualizarBoton();
+        guardarDatos();
+      });
+
+      actualizarBoton();
+      celdaBoton.appendChild(boton);
+
+      const celdaTarea = document.createElement('td');
+      const input = document.createElement('input');
+      input.className = 'tarea';
+      input.type = 'text';
+      input.placeholder = 'Escribe aquí tu tarea...';
+      input.value = tareaTexto;
+
+      input.addEventListener('input', () => {
+        datos[materia] = datos[materia] || { estado: 'vacio', tarea: '' };
+        datos[materia].tarea = input.value;
+      });
+
+      input.addEventListener('change', guardarDatos);
+
+      celdaTarea.appendChild(input);
+
+      fila.appendChild(celdaMateria);
+      fila.appendChild(celdaBoton);
+      fila.appendChild(celdaTarea);
+
+      cuerpoTareas.appendChild(fila);
+    });
+
+    btnBorrar.addEventListener('click', () => {
+      if (confirm('¿Seguro que quieres borrar todas las tareas?')) {
+        datos = {};
+        localStorage.removeItem(CLAVE_TAREAS);
+        location.reload();
+      }
+    });
+
+    window.addEventListener('beforeunload', guardarDatos);
+  </script>
+
+<script src="mariposas.js"></script>
+</body>
+</html>
