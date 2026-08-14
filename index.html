@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio de Ana</title>
+  <style>
+    body {
+      background-color: #010e26;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+    }cu
+
+    .titulo {
+      color: #ffffff;
+    }
+
+    .contenedor {
+      display: flex;
+      justify-content: center;
+      border: 1px solid white;
+    }
+
+    .conten-principal {
+      border: 1px solid white;
+      display: flex;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .conten-imagen {
+      display: flex;
+      width: 280px;
+      margin: 10px;
+      border: 1px solid white;
+      min-height: 300px;
+    }
+
+    .conten-parrafo {
+      border: 1px solid white;
+      flex: 1;
+      margin: 10px;
+      padding: 15px;
+    }
+
+    .p-nombre {
+      color: #ffffff;
+      font-size: 40px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .parrafo {
+      color: #ffffff;
+      margin-left: 20px;
+      margin-right: 20px;
+      line-height: 1.5;
+    }
+
+    .botones-1 {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .boton_1 {
+      display: inline-block;
+      padding: 10px 20px;
+      color: #ffffff;
+      background: transparent;
+      border: 2px solid #39ff14;
+      border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 0 8px rgba(57, 255, 20, 0.6), inset 0 0 10px rgba(57, 255, 20, 0.15);
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .horario {
+      color: #ffffff;
+      text-align: center;
+      border: 1px solid white;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .tabla {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid white;
+    }
+
+    .tabla th, .tabla td {
+      border: 1px solid white;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .modo-hacker th {
+      background-color: #87CEFA !important;
+      color: #000 !important;
+    }
+
+    .modo-hacker td {
+      background-color: #ffD700 !important;
+      color: #000 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="contenedor">
+      <h1 class="titulo">Ana Portafolio</h1>
+    </div>
+  </header>
+
+  <main>
+    <div class="conten-principal">
+      <div class="conten-imagen">
+        </div>
+      <div class="conten-parrafo">
+        <h1 class="p-nombre">Ana Rojas</h1>
+         <img src="foto%201.jpg" alt="Mi foto" style="width: 220px; border-radius: 50%; border: 3px solid #b000ff; box-shadow: 0 0 15px rgba(176, 0, 255, 0.8); margin: 15px auto; display: block;">
+        <p class="parrafo">
+          Hola, mi nombre es Ana María Rojas Clavijo, soy estudiante, tengo 14 años, me gusta mucho dibujar, las manualidades y el baloncesto. Mi color favorito es el morado, mi comida favorita es la pasta con pollo y mi hobby es escuchar música.
+        </p>
+        
+        <div class="botones-1">
+          <button class="boton_1" id="btn-toggle">Mostrar / Ocultar Horario</button>
+          <button class="boton_1" id="btn-color">Cambiar Color</button>
+          <a href="Registro.html" class="boton_1">Ir a Registro</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="horario" id="horario">
+      <h2 class="h-titulo">Horario</h2>
+      <table class="tabla" id="tabla-clases">
+        <thead>
+          <tr>
+            <th>Horario 9c</th>
+            <th>Día 1</th>
+            <th>Día 2</th>
+            <th>Día 3</th>
+            <th>Día 4</th>
+            <th>Día 5</th>
+            <th>Día 6</th>
+            <th>Día 7</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>6:50</td>
+            <td>Español</td>
+            <td>Sociales</td>
+            <td>Math</td>
+            <td>Filosofía</td>
+            <td>Dibujo</td>
+            <td>Math</td>
+            <td>Sociales</td>
+          </tr>
+          <tr>
+            <td>7:45</td>
+            <td>Biología</td>
+            <td>Francés</td>
+            <td>Español</td>
+            <td>Francés</td>
+            <td>Skills</td>
+            <td>Edu Física</td>
+            <td>Inglés</td>
+          </tr>
+          <tr>
+            <td>8:40</td>
+            <td>D</td>
+            <td>E</td>
+            <td>S</td>
+            <td>CA</td>
+            <td>N</td>
+            <td>S</td>
+            <td>O</td>
+          </tr>
+          <tr>
+            <td>9:35</td>
+            <td>Skills</td>
+            <td>Math</td>
+            <td>Inglés</td>
+            <td>Inglés</td>
+            <td>Sociales</td>
+            <td>Biología</td>
+            <td>Inglés</td>
+          </tr>
+          <tr>
+            <td>10:30</td>
+            <td>Francés</td>
+            <td>Inform</td>
+            <td>PILEO</td>
+            <td>Math</td>
+            <td>Math</td>
+            <td>Física</td>
+            <td>Biología</td>
+          </tr>
+          <tr>
+            <td>11:25</td>
+            <td>Inglés</td>
+            <td>Biología</td>
+            <td>Sociales</td>
+            <td>Infor</td>
+            <td>Danzas</td>
+            <td>PILEO</td>
+            <td>Math</td>
+          </tr>
+          <tr>
+            <td>12:20</td>
+            <td>Math</td>
+            <td>Edu Física</td>
+            <td>Infor</td>
+            <td>Ética</td>
+            <td>Español</td>
+            <td>Sociales</td>
+            <td>Química</td>
+          </tr>
+          <tr>
+            <td>1:15</td>
+            <td>Cátedra</td>
+            <td>Español</td>
+            <td>Danzas</td>
+            <td>Biología</td>
+            <td>Inglés</td>
+            <td>Sociales</td>
+            <td>Español</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const horario = document.getElementById('horario');
+    const btnToggle = document.getElementById('btn-toggle');
+    const btnColor = document.getElementById('btn-color');
+    const miTabla = document.getElementById('tabla-clases');
+
+    horario.style.display = 'none';
+
+    btnToggle.addEventListener('click', () => {
+      horario.style.display = horario.style.display === 'none' ? 'block' : 'none';
+    });
+
+    btnColor.addEventListener('click', () => {
+      miTabla.classList.toggle('modo-hacker');
+    });
+  </script>
+
+</body>
+</html>
